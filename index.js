@@ -8,12 +8,13 @@ class Contenedor {
         
         let data = await this.getAll()
         console.log(data)
+        
         if (!data){
         obj.id=1;
         await fs.promises.writeFile(`${this.archivo}`,JSON.stringify([obj]))
         console.log("ARCHIVO INEXISTENTE, creando...")
         }else{
-        obj.id=data[data.length-1].id+1
+        obj.id=data[data.length-1].id+1;
         data=[
         ...data,
         obj
@@ -52,7 +53,7 @@ class Contenedor {
         .then((resp)=>resp.filter(a=>a.id !== id))
         await fs.promises.writeFile(`${this.archivo}`,JSON.stringify(coincidencia)) 
         } catch (error) {
-            console.log(error)
+        console.log(error)
         }
     
     }
@@ -66,11 +67,7 @@ class Contenedor {
     }
 }
 
-    
-    
-    
-    
-// }
+
 
 module.exports=Contenedor
 

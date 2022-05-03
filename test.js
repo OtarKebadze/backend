@@ -37,7 +37,9 @@ setTimeout(()=>{
 intervaloTiempo();
 
 
-/* METODOS */
+/* METODOS 
+    IR USANDO DE A UN METODO PARA EVITAR PROBLEMAS
+*/
 // producto.getAll();
 
 // producto.getById(5)
