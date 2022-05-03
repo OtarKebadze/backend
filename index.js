@@ -5,41 +5,75 @@ class Contenedor {
     }
     async save(obj){
         try {
-        let lectura = await fs.promises.readFile(`${this.archivo}`, "utf-8")
-        //  ESTO ES UN JSON -> console.log(lectura)
-        let archivoLeido = JSON.parse(lectura)
-        // ESTO ES UN OBJETO ->console.log(archivoLeido)
-        obj.id=archivoLeido[archivoLeido.length-1].id+1
-        archivoLeido=[
-        ...archivoLeido,
+        
+        let data = await this.getAll()
+        console.log(data)
+        if (!data){
+        obj.id=1;
+        await fs.promises.writeFile(`${this.archivo}`,JSON.stringify([obj]))
+        console.log("ARCHIVO INEXISTENTE, creando...")
+        }else{
+        obj.id=data[data.length-1].id+1
+        data=[
+        ...data,
         obj
         ]
-        fs.promises.writeFile(`${this.archivo}`,JSON.stringify(archivoLeido))
+        await fs.promises.writeFile(`${this.archivo}`,JSON.stringify(data)) 
+        }
+        
         }catch (error) {
-        obj.id= 1;
-        console.log("ARCHIVO INEXISTENTE, creando...")
-        fs.promises.writeFile(`${this.archivo}`,JSON.stringify([obj]))
+        console.log(error)
         }
         
     }
+    async getAll(){
+        try {
+        const lectura = await fs.promises.readFile(`${this.archivo}`, "utf-8")
+        //  ESTO ES UN JSON -> console.log(lectura)
+        let arr= await JSON.parse(lectura)
+        return arr
+        } catch (error) {
+        return null
+        }
+    
+    }
+    async getById(id){
+        try {
+        let coincidencia = await this.getAll()
+        .then((resp)=>resp.find(a=>a.id === id))
+        return coincidencia
+        } catch (error) {
+        console.log(error)
+        }
+    }
+    async deleteById(id){
+        try {
+        let coincidencia = await this.getAll()
+        .then((resp)=>resp.filter(a=>a.id !== id))
+        await fs.promises.writeFile(`${this.archivo}`,JSON.stringify(coincidencia)) 
+        } catch (error) {
+            console.log(error)
+        }
+    
+    }
+    async deleteAll(){
+    try {
+    await fs.promises.writeFile(`${this.archivo}`,"") 
+    } catch (error) {
+    return error
+    }
+
+    }
 }
 
-    // getbyId(id){
-
-    // }
-    // getAll(){
-
-    // }
-    // deleteById(id){
-
-    // }
-    // deleteAll(){
-
-    // }
+    
+    
+    
+    
 // }
 
-const producto = new Contenedor ("productos.txt")
-producto.save({title: "hola", price: 100 , thumbnail: "thumbnail"})
+module.exports=Contenedor
+
 
 
 

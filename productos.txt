@@ -1,1 +1,1 @@
-[{"title":"hola","price":100,"thumbnail":"thumbnail","id":1},{"title":"hola","price":100,"thumbnail":"thumbnail","id":2}]
+[{"title":"LENOVO","imagen":"https://www.alishop.com.ar/wp-content/uploads/2021/07/legion-Pro-3.jpg","precio":200,"id":1},{"title":"ACER","imagen":"https://www.alishop.com.ar/wp-content/uploads/2021/07/legion-Pro-3.jpg","precio":400,"id":2},{"title":"ALIENWARE","imagen":"https://www.alishop.com.ar/wp-content/uploads/2021/07/legion-Pro-3.jpg","precio":600,"id":3}]
