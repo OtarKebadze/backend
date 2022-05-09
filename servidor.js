@@ -2,7 +2,7 @@ const express = require('express');
 const Contenedor = require ('./index.js');
 const producto = require('./test.js');
 const app = express();
-const port = 8081;
+const port = 8080;
 
 app.get("/productos", (req,res,)=>{
     res.send("asdasdas")
