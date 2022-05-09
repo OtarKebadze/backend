@@ -1,6 +1,6 @@
 const express = require('express');
-const Contenedor = require ('./index.js');
-const producto = require('./test.js');
+const Contenedor = require ('./index');
+const producto = require('./test');
 const app = express();
 const port = 8080;
 
