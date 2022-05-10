@@ -3,6 +3,14 @@ class Contenedor {
   constructor(nombreArchivo) {
     this.archivo = nombreArchivo;
   }
+  async getRandom(){
+    let numero = await this.getAll()
+    .then(resp=> {
+    let numRandom = Math.ceil(Math.random()*resp.length)
+    return numRandom
+    })
+    return this.getById(numero)
+  }
   async save(obj) {
     try {
       let data = await this.getAll();
@@ -25,10 +33,9 @@ class Contenedor {
   async getAll() {
     try {
       const lectura = await fs.promises.readFile(`${this.archivo}`, "utf-8");
-      //  ESTO ES UN JSON -> console.log(lectura)
-      let arr = await JSON.parse(lectura);
+      let arr = JSON.parse(lectura);
       return arr;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -63,5 +70,7 @@ class Contenedor {
     }
   }
 }
+
+
 
 module.exports = Contenedor;
