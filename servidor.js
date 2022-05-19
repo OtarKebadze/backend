@@ -1,39 +1,12 @@
-const fs = require("fs");
 const express = require('express');
-const Contenedor = require('./index');
-const producto = require('./test');
+const router = require('./router')
 const app = express();
 const port = 8080;
-let html = `
-<h1>PROYECTO NODE OTAR<h1>
-LINKS RECOMENDADOS --->   /productos    ó   /productoRandom
-`
 
-app.get("/", (req,res)=>{
-    res.send(html)
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/productos", (req,res)=>{
-producto.getAll()
-.then(resp=>res.send(
-`
-${JSON.stringify(resp)}
-
-`
-))
-.catch(err=>console.log(err))
-})
-
-
-app.get("/productoRandom", (req,res,)=>{
-producto.getRandom()
-.then(resp=>res.send(
-`
-${JSON.stringify(resp)}
-
-`
-))
-})
+app.use("/api", router)
 
 app.listen(port , ()=>{
     console.log("LEVANTANDO SERVIDOR")

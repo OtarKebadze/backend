@@ -1,0 +1,15 @@
+.contenedor{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedorForm{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    border: 2px solid black;
+}

@@ -21,7 +21,7 @@ class Contenedor {
         console.log("ARCHIVO INEXISTENTE, creando...");
         console.log(obj.id);
       } else {
-        obj.id = data[data.length - 1].id + 1;
+        obj.id = data.length+1;
         data = [...data, obj];
         await fs.promises.writeFile(`${this.archivo}`, JSON.stringify(data));
         console.log(obj.id);
