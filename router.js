@@ -61,6 +61,7 @@ router.delete("/productos/:id", (req, res) => {
     else{
     producto.deleteById(num)
     }})
+    //LE PUSE UN SET TIME OUT, PORQUE SINO ME DEVOLVIA UN JSON SIN ACTUALIZAR, PERO ME BORRABA EL PRODUCTO DEL TXT
     setTimeout(() => {
         return producto.getAll()
         .then((resp) =>
