@@ -1,1 +1,1 @@
-[{"title":"12312312","price":"123123121","thumbnail":"123123123123123","id":1},{"title":"12312312","price":"123123121","thumbnail":"123123123123123","id":2},{"title":"12312312","price":"123123121","thumbnail":"123123123123123","id":3}]
+[{"title":"computadora","price":"10000","thumbnail":"https://cdn4.iconfinder.com/data/icons/multimedia-75/512/multimedia-37-512.png","id":1},{"title":"1","price":"1","thumbnail":"1","id":2},{"title":"1","price":"1","thumbnail":"1","id":3}]

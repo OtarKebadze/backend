@@ -1,4 +1,4 @@
-const Contenedor = require("./index");
+Contenedor = require("./index");
 
 const producto = new Contenedor("productos.txt");
 

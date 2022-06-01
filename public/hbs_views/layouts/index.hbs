@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../../main.js"></script>
 </head>
 <body>
 <div class="contenedor">
-    <form class="contenedorForm" action="/api/productos" method="POST">
+    <form class="contenedorForm" action="/api/" method="POST">
         <label for="title">PRODUCTO:</label>
         <input type="text" name="title" required>
         <label for="price">PRECIO</label>
@@ -18,6 +19,18 @@
         <input type="text" name="thumbnail" required>
         <input type="submit" value="ENVIAR">
     </form>
+</div>
+<div class="contenedorProductos">
+    {{{body}}}
+</div>
+<div class="contenedorChat">
+    <form onsubmit =return enviarMensaje()>
+    <input type="mail" id="mail" required>
+    <input type="text" id="text" required>
+    <button type="submit"> ENVIAR MENSAJE</button>
+    </form>
+    <div id="mensajes">
+    </div>
 </div>
 </body>
 </html>
