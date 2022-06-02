@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const arrProductos = JSON.parse(fs.readFileSync("productos.txt", "utf-8"))
-const arrMessages = JSON.parse(fs.readFileSync("messages.txt", "utf-8"))
+
 
 app.engine(
   "hbs",
@@ -29,25 +29,35 @@ app.use("/api", router);
 
 const saveMessages = (message)=>{
 const contenido = fs.readFileSync("messages.txt", "utf-8")
-if (contenido === []) {
+if (contenido === "") {
   fs.writeFileSync("messages.txt", JSON.stringify([message]))
 } else {
-  let newMessage = JSON.stringify([...arrMessages,message])
+  const messages = JSON.parse(contenido);
+  const newMessage = JSON.stringify([...messages,message])
   fs.writeFileSync("messages.txt", newMessage)
 }
 }
+
+const readMessages = () => {
+  const contenido = fs.readFileSync('messages.txt','utf-8');
+  if (contenido === '') {
+      return '';
+  } else {
+      return JSON.parse(contenido);
+  }
+}
 // Websockets 
 
-socketServer.on("connection", socket =>{
+socketServer.on("connection", async socket =>{
   console.log("NUEVO USUARIO CONECTADO")
 
   //socket.emit("productos", arrProductos)
 
-  socket.emit("messages", arrMessages);
+  socket.emit("messages", await readMessages());
 
-  socket.on("new_message", (mensaje)=>{
+  socket.on("new_message", async (mensaje)=>{
     saveMessages(mensaje);
-    socketServer.sockets.emit("messages", arrMessages);
+    socketServer.sockets.emit("messages", await readMessages());
   })
 
 });

@@ -1,6 +1,6 @@
 const socket = io();
 
-const enviarMensaje = ()=> {
+const enviarMensaje = () => {
     const mail= document.getElementById("mail").value;
     const text= document.getElementById("text").value;
     const time= new Date();
@@ -29,6 +29,6 @@ const mensajeFinal = mensajes
 document.getElementById("mensajes").innerHTML = mensajeFinal;
 }
 
-socket.on("messages", (arrMessages) => agregarMensaje(arrMessages))
+socket.on("messages", (messages) => agregarMensaje(messages))
 
 
