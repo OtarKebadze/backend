@@ -41,7 +41,7 @@ if (contenido === "") {
 const readMessages = () => {
   const contenido = fs.readFileSync('messages.txt','utf-8');
   if (contenido === '') {
-      return '';
+      return 'MENSAJE VACIO';
   } else {
       return JSON.parse(contenido);
   }
