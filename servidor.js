@@ -1,4 +1,6 @@
 const express = require("express");
+const Contenedor = require("./index");
+const producto = new Contenedor("productos.txt");
 const fs = require("fs");
 const router = require("./router");
 const { engine } = require("express-handlebars");
@@ -12,7 +14,6 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const arrProductos = JSON.parse(fs.readFileSync("productos.txt", "utf-8"))
 
 
 app.engine(
@@ -48,10 +49,11 @@ const readMessages = () => {
 }
 // Websockets 
 
+
 socketServer.on("connection", async socket =>{
   console.log("NUEVO USUARIO CONECTADO")
 
-  //socket.emit("productos", arrProductos)
+  socket.emit("productos", await producto.getAll())
 
   socket.emit("messages", await readMessages());
 
@@ -59,7 +61,10 @@ socketServer.on("connection", async socket =>{
     saveMessages(mensaje);
     socketServer.sockets.emit("messages", await readMessages());
   })
-
+  socket.on("new_product", async (producto)=>{
+    let productos = await producto.getAll() === '' ? '' : await producto.getAll();
+    socketServer.sockets.emit("productos", productos)
+  })
 });
 
 httpServer.listen(port, () => {

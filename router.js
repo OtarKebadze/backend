@@ -4,12 +4,12 @@ const producto = require("./test");
 const router = express.Router();
 
 
-router.get("/", (req, res) => {
-  res.render('producto')
-});
+// router.get("/", (req, res) => {
+//   res.render('producto')
+// });
 
-router.get("/productos", async (req, res) => {
-let productos = await producto.getAll() === '' ? '' : await producto.getAll();
+router.get("/", async (req, res) => {
+ let productos = await producto.getAll() === '' ? '' : await producto.getAll();
 res.render('producto', {productos})
 });
 
@@ -22,9 +22,11 @@ res.render('producto', {productos})
 // });
 // });
 
-router.post("/", (req, res) => {
-  producto.save(req.body).then( () =>  res.render("producto"));
+router.post("/productos", (req, res) => {
+producto.save(req.body).then(() => producto.getAll().then(()=>res.redirect("/api/")));
+console.log("PRODUCTO AGREGADO DE MANERA EXITOSA");
 });
+
 
 // router.put("/productos/:id", (req, res) => {
 //   let num = parseInt(req.params.id);
