@@ -1,1 +1,1 @@
-[{"title":"computadora","price":"10000","thumbnail":"https://cdn4.iconfinder.com/data/icons/multimedia-75/512/multimedia-37-512.png","id":1}]
+[]
