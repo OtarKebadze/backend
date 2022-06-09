@@ -8,11 +8,11 @@ const {autenticationUser , authorizeUser} = require("./middleware/admin")
 
 //NO OLVIDAR CAMBIAR ISADMIN A TRUE O FALSE DEPENDIENDO DE LAS FUNCIONALIDADES QUE REQUIERAN.
 
+
+//ROUTER PRODUCTOS
 router.get("/", autenticationUser,(req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
-
 
 router.get("/productos/:id",autenticationUser,authorizeUser,(req, res) => {
   let num = parseInt(req.params.id);
@@ -80,5 +80,28 @@ router.delete("/productos/:id", autenticationUser,authorizeUser,(req, res) => {
     );
   }, 500);
 });
+
+
+//ROUTER CARRITO
+
+router.get("/",(req, res) =>{
+
+})
+
+router.post("/id/productos",(req, res) =>{
+
+})
+
+router.post("id/productos/:idproducto",(req, res) =>{
+
+})
+
+router.delete("/:id",(req, res) =>{
+
+})
+
+router.delete("/id/productos/:idproducto",(req, res) =>{
+  
+})
 
 module.exports = router;
