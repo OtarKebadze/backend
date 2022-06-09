@@ -1,1 +1,1 @@
-[]
+[{"title":"HP","price":50000,"thumbnail":"IMG","stock":100,"id":1},{"title":"LENOVO","price":35000,"thumbnail":"IMG","stock":80,"id":2}]

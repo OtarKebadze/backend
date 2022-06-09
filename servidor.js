@@ -7,8 +7,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+// ENDPOINTS PARA PRODUCTOS 
 
 app.use("/api", router);
+// ENDPOINTS PARA CARRITO
+
+app.use("/api/carrito", router);
 
 app.listen(port, ()=>{
   console.log(`ESTOY ESCUCHANDO EN EL PUERTO ${port}`)
