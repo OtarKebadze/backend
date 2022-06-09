@@ -6,7 +6,7 @@ const producto = new Contenedor("productos.txt");
 const arrayProd = JSON.parse(fs.readFileSync("productos.txt", "utf-8"));
 const {autenticationUser , authorizeUser} = require("./middleware/admin")
 
-
+//NO OLVIDAR CAMBIAR ISADMIN A TRUE O FALSE DEPENDIENDO DE LAS FUNCIONALIDADES QUE REQUIERAN.
 
 router.get("/", autenticationUser,(req, res) => {
   res.sendFile(__dirname + "/index.html");
