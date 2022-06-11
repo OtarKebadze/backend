@@ -14,17 +14,16 @@ class Contenedor {
   async save(obj) {
     try {
       let data = await this.getAll();
-
       if (!data) {
         obj.id = 1;
         await fs.promises.writeFile(`${this.archivo}`, JSON.stringify([obj]));
         console.log("ARCHIVO INEXISTENTE, creando...");
-        console.log(obj.id);
+        return obj.id;
       } else {
         obj.id = data.length+1;
         data = [...data, obj];
         await fs.promises.writeFile(`${this.archivo}`, JSON.stringify(data));
-        console.log(obj.id);
+        return obj.id;
       }
     } catch (error) {
       console.log(error);
@@ -34,6 +33,7 @@ class Contenedor {
     try {
       const lectura = await fs.promises.readFile(`${this.archivo}`, "utf-8");
       let arr = JSON.parse(lectura);
+      console.log(arr)
       return arr;
     } catch {
       return null;
@@ -70,7 +70,6 @@ class Contenedor {
     }
   }
 }
-
 
 
 module.exports = Contenedor;
