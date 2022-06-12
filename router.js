@@ -99,7 +99,7 @@ router.post("/",(req, res) =>{
   carrito.createCart();
   res.send("Carrito Creado")
 })
- // SE AGREGA CON EL ID EL PRODUCTO
+ // SE AGREGA CON EL ID EL PRODUCTO, LE AGREGUE ESE PARAMETRO PORQUE SINO NO SE PODIA AGREGAR PRODUCTO.
 router.post("/:id/productos/:id_prod",async (req, res) =>{
   const idCart= Number(req.params.id);
   const idProd = Number(req.params.id_prod);
