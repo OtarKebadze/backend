@@ -16,11 +16,15 @@ class Contenedor {
       let data = await this.getAll();
       if (!data) {
         obj.id = 1;
+        obj.code = this.generateCode("8");
+        obj.date = new Date();
         await fs.promises.writeFile(`${this.archivo}`, JSON.stringify([obj]));
         console.log("ARCHIVO INEXISTENTE, creando...");
         return obj.id;
       } else {
         obj.id = data.length+1;
+        obj.code = this.generateCode("8");
+        obj.date = new Date(8);
         data = [...data, obj];
         await fs.promises.writeFile(`${this.archivo}`, JSON.stringify(data));
         return obj.id;
@@ -33,7 +37,6 @@ class Contenedor {
     try {
       const lectura = await fs.promises.readFile(`${this.archivo}`, "utf-8");
       let arr = JSON.parse(lectura);
-      console.log(arr)
       return arr;
     } catch {
       return null;
@@ -41,10 +44,9 @@ class Contenedor {
   }
   async getById(id) {
     try {
-      let coincidencia = await this.getAll().then((resp) =>
-        resp.find((a) => a.id === id)
-      );
-      return coincidencia;
+      let data = await JSON.parse(fs.readFileSync("productos.txt","utf-8"));
+      const encontrado= data.find(a=> a.id == id)
+      return encontrado
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +71,16 @@ class Contenedor {
       return error;
     }
   }
+  generateCode(length) {
+    let result = "";
+    let characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 }
-
 
 module.exports = Contenedor;

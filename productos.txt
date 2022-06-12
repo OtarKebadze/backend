@@ -1,1 +1,1 @@
-[{"title":"HP","price":50000,"thumbnail":"IMG","stock":100,"id":1},{"title":"LENOVO","price":35000,"thumbnail":"IMG","stock":80,"id":2}]
+[{"title":"HP","price":"15000","thumbnail":"IMG","stock":"50","id":1,"code":"KMeI38kk","date":"1970-01-01T00:00:00.008Z"},{"title":"LENOVO","price":"10500","thumbnail":"IMG2","stock":"15","id":2,"code":"o1rv5Pgj","date":"1970-01-01T00:00:00.008Z"},{"title":"ALIENWARE","price":"35000","thumbnail":"IMG3","stock":"25","id":3,"code":"rwGvfzOc","date":"1970-01-01T00:00:00.008Z"}]

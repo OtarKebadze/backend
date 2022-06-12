@@ -3,8 +3,8 @@ const express = require("express");
 const router = express.Router();
 const Contenedor = require("./index");
 const producto = new Contenedor("productos.txt");
-const arrayProd = JSON.parse(fs.readFileSync("productos.txt", "utf-8"));
-const {autenticationUser , authorizeUser} = require("./middleware/admin")
+const carrito = require("./carrito")
+const {autenticationUser , authorizeUser} = require("./middleware/admin");
 
 //NO OLVIDAR CAMBIAR ISADMIN A TRUE O FALSE DEPENDIENDO DE LAS FUNCIONALIDADES QUE REQUIERAN.
 
@@ -84,24 +84,54 @@ router.delete("/productos/:id", autenticationUser,authorizeUser,(req, res) => {
 
 //ROUTER CARRITO
 
-router.get("/",(req, res) =>{
-
+router.get("/:id/productos",async (req, res) =>{
+  let id = req.params.id;
+  const arrCart = JSON.parse(fs.readFileSync("carrito.txt" , "utf-8"))
+  let carritoEncontrado = await arrCart.find(elem => elem.id === Number(id))
+  if (!carritoEncontrado) {
+    return res.status(404).send("CARRITO INEXISTENTE")
+  } else {
+    carrito.showProds().then(resp=> res.send(resp));
+  }
 })
 
-router.post("/id/productos",(req, res) =>{
-
+router.post("/",(req, res) =>{
+  carrito.createCart();
+  res.send("Carrito Creado")
 })
-
-router.post("id/productos/:idproducto",(req, res) =>{
-
+ // SE AGREGA CON EL ID EL PRODUCTO
+router.post("/:id/productos/:id_prod",async (req, res) =>{
+  const idCart= Number(req.params.id);
+  const idProd = Number(req.params.id_prod);
+  let carritoEncontrado = await carrito.getCartById(idCart);
+ if (!carritoEncontrado) {
+    return res.status(404).send("CARRITO INEXISTENTE")
+ } else {
+  let productoEncontrado = await producto.getById(idProd)
+  carrito.saveProds(productoEncontrado.id);
+ }
+ carrito.showProds().then(resp=> res.send(resp));
 })
 
 router.delete("/:id",(req, res) =>{
-
+  let id = req.params.id;
+  carrito.deteleCart(id)
+  setTimeout(() => {
+    carrito.getAllCart().then(resp=> res.send(resp))
+  }, 500); 
 })
 
-router.delete("/id/productos/:idproducto",(req, res) =>{
-  
+router.delete("/:id/productos/:id_prod", async(req, res) =>{
+  const idCart= Number(req.params.id);
+  const idProd = Number(req.params.id_prod);
+  let carritoEncontrado = await carrito.getCartById(idCart);
+  if (!carritoEncontrado) {
+    return res.status(404).send("CARRITO INEXISTENTE")
+ } else {
+   let productoEncontrado = await producto.getById(idProd)
+  carrito.deleteProdById(productoEncontrado.id);
+  carrito.showProds().then(resp=> res.send(resp));
+ }
 })
 
 module.exports = router;

@@ -1,45 +1,77 @@
+const { Console } = require("console");
 let fs = require("fs");
+const arrProd = JSON.parse(fs.readFileSync("productos.txt","utf-8"));
 
-// const arrayProd = JSON.parse(fs.readFileSync("productos.txt", "utf-8"));
 
 class Carrito {
   constructor(cartName) {
     this.carrito = cartName;
   }
+  async createCart(){
+    let cartId = 1;
+    let date = new Date();
+    let productos = [];
+    let cart = { id: cartId, date: date, productos }
+    await fs.promises.writeFile(`${this.carrito}`, JSON.stringify([cart]));
+    console.log("CARRITO INEXISTENTE, creando...");
+    console.log("EL ID DEL CARRITO ES "+cartId);
+  }
+// LOS PRODUCTOS SE AGREGAN CON EL ID
   async saveProds(prod) {
     try {
-      let data = await this.showProds();
-      if (!data) {
-        let cartId = 1;
-        prod.id = 1;
-        let date = new Date();
-        let productos = [prod];
-        let cart = { IdCart: cartId, Date: date, productos };
-        await fs.promises.writeFile(`${this.carrito}`, JSON.stringify([cart]));
-        console.log("ARCHIVO INEXISTENTE, creando...");
-        return "CART ID: " + cartId;
-      } else {
-        prod.id = data[0].productos.length + 1;
-        data[0].productos.push(prod);
-        await fs.promises.writeFile(`${this.carrito}`, JSON.stringify(data));
-        return data[0].idCart;
-      }
+    let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
+    let producto = arrProd.find(elem=>elem.id == prod)
+    if (!producto) {
+      console.log("PRODUCTO INEXISTENTE")
+    } else {
+      data[0].productos.push(producto);
+      await fs.promises.writeFile(`${this.carrito}`, JSON.stringify(data));
+    }
     } catch (error) {
       console.error(error);
     }
   }
+  async getCartById(id){
+    try {
+      let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
+      let encontrado = data.find((elem) => elem.id === id);
+      if (!encontrado) {
+        console.error("ID NO EXISTE")
+      } else {
+      return encontrado
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async getAllCart(){
+    let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
+    return data
+  }
+  async deteleCart(id){
+  let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
+  const index = data.findIndex(elem=> elem.id == id)
+  if (index == -1) {
+    console.log("CARRITO INEXISTENTE")
+  } else {
+  data.splice(index,1)
+  await fs.promises.writeFile(`${this.carrito}`, JSON.stringify(data));
+  console.log("ELIMINADO DE MANERA EXISTOSA")
+  }
+  }
   async showProds() {
     try {
       const lectura = await fs.promises.readFile(`${this.carrito}`, "utf-8");
-      let arr = await JSON.parse(lectura);
+      let carrito = await JSON.parse(lectura);
+      let arr = carrito[0].productos;
       return arr;
-    } catch {
-      return null;
+    } catch (error){
+      return "NO EXISTE CARRITO  "+error;
     }
   }
   async deleteProdById(id) {
     try {
-      let data = await this.showProds();
+      let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
       let arr = data[0].productos;
       let index = arr.findIndex((elem) => elem.id === id);
       if (index === -1) {
@@ -54,23 +86,15 @@ class Carrito {
   }
   async deleteAllProds() {
     try {
-      await fs.promises.writeFile(`${this.carrito}`, "");
+      let data = await JSON.parse(fs.readFileSync("carrito.txt","utf-8"));
+      let arr = data[0].productos;
+      arr.splice(0, arr.length);
+      await fs.promises.writeFile(`${this.carrito}`, JSON.stringify(data));
     } catch (error) {
       return error;
     }
   }
-  generateCode(length) {
-    const result = "";
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (const i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
 }
 let carrito = new Carrito("carrito.txt");
-carrito.saveProds({"price":500000});
 
-module.exports = Carrito;
+module.exports = carrito;
